@@ -2,26 +2,26 @@
 
 > Status: Developing  ⚠️
  
-### Essa é uma aplicação feita por mim, referente ao desafio da BECA de JAVA.
+### Essa é uma aplicação feita por mim, referente ao desafio da BECA JAVA.
 
-## Modelos e conceitos aplicados.
+## Conceito e modelagem aplicado.
 
 + POO
-+ Java 
-+ Sprimg boot
-+ git
-+ uml
-+ crud
-+ estuturacao de dados
-+ versionamento da aplicacao 
++ UML
++ Estruturação de dados
++ Versionamento da aplicação
+
+## Tecnologia.
+
+* JAVA 13
+* Spring Boot 2.6.2
+* Intellij IDE 2021.3.1
+* Git.
+
 
 ## Função.
 
-+ Principal função do projeto é ter um PDV.
++ Principal função do projeto é ser um PDV.
 + Adicionar produtos.
 + Receber cadastro de Clientes.
-+ O fucionario efetuar a venda.
 + Oferecer a venda final.
-
-
- 
