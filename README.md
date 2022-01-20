@@ -4,27 +4,24 @@
  
 ### Essa é uma aplicação feita por mim, referente ao desafio da BECA JAVA.
 
-## Conceito aplicado.
+## Conceito e modelagem aplicado.
 
 + POO
 + UML
-+ Estuturacao de dados
-+ Versionamento da aplicacao 
++ Estruturação de dados
++ Versionamento da aplicação
 
 ## Tecnologia.
 
-* JAVA 13.2
+* JAVA 13
 * Spring Boot 2.6.2
 * Intellij IDE 2021.3.1
+* Git.
 
 
 ## Função.
 
-+ Principal função do projeto é ter um PDV.
++ Principal função do projeto é ser um PDV.
 + Adicionar produtos.
 + Receber cadastro de Clientes.
-+ O fucionario efetuar a venda.
 + Oferecer a venda final.
-
-
- 
