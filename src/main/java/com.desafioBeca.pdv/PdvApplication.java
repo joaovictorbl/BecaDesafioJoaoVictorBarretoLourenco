@@ -1,4 +1,4 @@
-package com.desafiobeca.pdv;
+package com.desafioBeca.pdv;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

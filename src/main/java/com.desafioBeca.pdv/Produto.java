@@ -1,10 +1,10 @@
-package com.desafiobeca.pdv;
+package com.desafioBeca.pdv;
 
 public class Produto {
 
     Integer id;
     String nome;
     Double valor;
-    Intger quantidade;
+    Integer quantidade;
     String descricao;
 }

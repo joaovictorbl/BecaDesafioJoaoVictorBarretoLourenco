@@ -1,4 +1,4 @@
-package com.desafiobeca.pdv;
+package com.desafioBeca.pdv;
 
 public class Pessoa {
 
