@@ -4,7 +4,7 @@
  
 ### Essa é uma aplicação feita por mim, referente ao desafio da BECA de JAVA.
 
-## Modelo é conceitos aplicados.
+## Modelos e conceitos aplicados.
 
 + POO
 + Java 
@@ -15,7 +15,7 @@
 + estuturacao de dados
 + versionamento da aplicacao 
 
-## Fução.
+## Função.
 
 + Principal função do projeto é ter um PDV.
 + Adicionar produtos.
