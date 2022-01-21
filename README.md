@@ -1,5 +1,11 @@
 # Beca Desafio João Victor Barreto Lourenço
 
+![alt text](diagramaBeca.png)
+
+Diagrama.
+
+
+
 > Status: Developing  ⚠️
  
 ### Essa é uma aplicação feita por mim, referente ao desafio da BECA JAVA.
