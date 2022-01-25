@@ -8,6 +8,17 @@ public class Produto {
    private Integer quantidade;
    private String descricao;
 
+   @Override
+   public String toString() {
+      return "Produto{" +
+              "id=" + id +
+              ", nome='" + nome + '\'' +
+              ", valor=" + valor +
+              ", quantidade=" + quantidade +
+              ", descricao='" + descricao + '\'' +
+              '}';
+   }
+
    public Produto() {
    }
 

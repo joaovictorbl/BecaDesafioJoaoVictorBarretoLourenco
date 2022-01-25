@@ -4,6 +4,13 @@ public class Fucionario extends Pessoa {
 
     private Integer id;
 
+    @Override
+    public String toString() {
+        return "Fucionario{" +
+                "id=" + id +
+                '}';
+    }
+
     public Fucionario() {
     }
 

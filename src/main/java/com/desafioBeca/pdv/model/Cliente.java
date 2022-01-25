@@ -4,6 +4,14 @@ public class Cliente extends Pessoa {
 
     private Integer id;
 
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                '}';
+    }
+
+
     public Cliente() {
     }
 

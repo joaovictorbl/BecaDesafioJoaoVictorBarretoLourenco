@@ -8,6 +8,15 @@ public class Venda extends Produto {
     private Double valorFinal;
     private Integer quantidadeFinal;
 
+    @Override
+    public String toString() {
+        return "Venda{" +
+                "id=" + id +
+                ", valorFinal=" + valorFinal +
+                ", quantidadeFinal=" + quantidadeFinal +
+                '}';
+    }
+
     public Venda() {
     }
 
