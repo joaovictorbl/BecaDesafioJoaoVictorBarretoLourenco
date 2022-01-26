@@ -1,6 +1,8 @@
 package com.desafioBeca.pdv.controllers;
 
 import com.desafioBeca.pdv.model.Cliente;
+import com.desafioBeca.pdv.services.ClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,52 +13,40 @@ import java.util.List;
 
 public class ClienteController {
 
+    @Autowired
+    private ClienteService clienteService;
+
     @PostMapping
-    public ResponseEntity<Cliente> criar (@RequestBody Cliente cliente ) {
-        System.out.println(cliente);
+    public ResponseEntity<Cliente> criar (@RequestBody Cliente cliente) {
 
-        cliente.setId(1);
+        Cliente clienteCriado = clienteService.criar(cliente);
 
-        System.out.println("novo cliente");
-
-        return ResponseEntity.created(null).body(cliente);
+        return ResponseEntity.created(null).body(clienteCriado);
 
     }
 
     @GetMapping
     public ResponseEntity<List<Cliente>> listar () {
 
-        Cliente cli1 = new Cliente();
-        cli1.setId(1);
-        cli1.setNome("fulano");
+       List listaDeCliente = clienteService.listar();
 
-        Cliente cli2 = new Cliente();
-        cli2.setId(2);
-        cli2.setNome("Alguém ");
-
-        Cliente cli3 = new Cliente();
-        cli3.setId(3);
-        cli3.setNome("bla bla bla");
-
-        return ResponseEntity.ok(List.of(
-                cli1,
-                cli2,
-                cli3
-        ));
+        return ResponseEntity.ok(listaDeCliente);
 
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Cliente> atualizar (@RequestBody Cliente cliente, @PathVariable Integer id) {
 
-      cliente.setId(id);
+      Cliente clienteAtualizado = clienteService.atualizar(cliente, id);
 
-      return ResponseEntity.ok(cliente);
+      return ResponseEntity.ok(clienteAtualizado);
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar (@PathVariable Long id) {
+    public ResponseEntity<String> deletar (@PathVariable Integer id) {
+
+        clienteService.deletar(id);
 
         return ResponseEntity.noContent().build();
 
@@ -65,10 +55,8 @@ public class ClienteController {
     @GetMapping("/{id}")
     public ResponseEntity<Cliente>  obter (@PathVariable Integer id) {
 
-        Cliente cli1 = new Cliente();
-        cli1.setId(id);
-        cli1.setNome("joão");
+        Cliente obterCliente = clienteService.obter(id);
 
-        return ResponseEntity.ok(cli1);
+        return ResponseEntity.ok(obterCliente);
     }
 }

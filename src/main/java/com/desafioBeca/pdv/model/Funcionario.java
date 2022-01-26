@@ -1,6 +1,6 @@
 package com.desafioBeca.pdv.model;
 
-public class Fucionario extends Pessoa {
+public class Funcionario extends Pessoa {
 
     private Integer id;
 
@@ -11,7 +11,7 @@ public class Fucionario extends Pessoa {
                 '}';
     }
 
-    public Fucionario() {
+    public Funcionario() {
     }
 
     @Override

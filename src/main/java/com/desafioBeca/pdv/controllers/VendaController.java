@@ -2,6 +2,8 @@ package com.desafioBeca.pdv.controllers;
 
 
 import com.desafioBeca.pdv.model.Venda;
+import com.desafioBeca.pdv.services.VendaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,51 +14,39 @@ import java.util.List;
 
 public class VendaController {
 
+    @Autowired
+    private VendaService vendaService;
+
     @PostMapping
     public ResponseEntity<Venda> criar(@RequestBody Venda venda ) {
-        System.out.println(venda);
 
-        venda.setId(1);
+        Venda criarVenda = vendaService.criar(venda);
 
-        System.out.println("Nova venda ");
-
-        return ResponseEntity.created(null).body(venda);
+        return ResponseEntity.created(null).body(criarVenda);
 
     }
 
     @GetMapping
     public ResponseEntity<List<Venda>> lista() {
 
-        Venda ven1 = new Venda();
-        ven1.setId(1);
-        ven1.setNome("venda concluida");
+        List listaDeVenda = vendaService.lista();
 
-        Venda ven2 = new Venda();
-        ven2.setId(2);
-        ven2.setNome("venda efetuada");
-
-        Venda ven3 = new Venda();
-        ven3.setId(3);
-        ven3.setNome("ficando rico");
-
-        return ResponseEntity.ok(List.of(
-                ven1,
-                ven2,
-                ven3
-        ));
+        return ResponseEntity.ok(listaDeVenda);
 
     }
 
     @PatchMapping("/{id}")
     public  ResponseEntity<Venda> atualizar(@RequestBody Venda venda, @PathVariable Integer id) {
 
-        venda.setId(id);
+        Venda vendaAtualizada = vendaService.atualizar(venda, id);
 
-        return ResponseEntity.ok(venda);
+        return ResponseEntity.ok(vendaAtualizada);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleta(@PathVariable Integer id) {
+
+        vendaService.deleta(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -64,11 +54,9 @@ public class VendaController {
     @GetMapping("/{id}")
     public ResponseEntity<Venda> obter(@PathVariable Integer id ) {
 
-        Venda ven1 = new Venda();
-        ven1.setId(id);
-        ven1.setNome("ta de boa ");
+       Venda obterVenda = vendaService.obter(id);
 
-        return ResponseEntity.ok(ven1);
+        return ResponseEntity.ok(obterVenda);
 
     }
 }
