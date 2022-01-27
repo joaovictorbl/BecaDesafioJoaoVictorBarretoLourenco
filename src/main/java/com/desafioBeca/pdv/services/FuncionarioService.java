@@ -1,12 +1,13 @@
 package com.desafioBeca.pdv.services;
 
+import com.desafioBeca.pdv.Interfaces.FuncionarioInterface;
 import com.desafioBeca.pdv.model.Funcionario;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class FuncionarioService {
+public class FuncionarioService implements FuncionarioInterface {
 
     public Funcionario criar (Funcionario funcionario) {
 
