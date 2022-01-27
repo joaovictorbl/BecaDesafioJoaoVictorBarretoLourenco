@@ -1,12 +1,13 @@
 package com.desafioBeca.pdv.services;
 
+import com.desafioBeca.pdv.Interfaces.ClienteInterface;
 import com.desafioBeca.pdv.model.Cliente;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ClienteService {
+public class ClienteService implements ClienteInterface {
 
     public Cliente criar (Cliente cliente) {
 

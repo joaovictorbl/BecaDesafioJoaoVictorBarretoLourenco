@@ -1,12 +1,13 @@
 package com.desafioBeca.pdv.services;
 
+import com.desafioBeca.pdv.Interfaces.ProdutoInterface;
 import com.desafioBeca.pdv.model.Produto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ProdutoService {
+public class ProdutoService implements ProdutoInterface {
 
 
     public Produto criar(Produto produto) {
