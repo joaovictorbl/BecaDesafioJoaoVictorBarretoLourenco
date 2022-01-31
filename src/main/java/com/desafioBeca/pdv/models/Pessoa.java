@@ -8,9 +8,6 @@ import javax.persistence.*;
 @MappedSuperclass
 public class Pessoa {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Integer id;
    private String nome;
    private String cpf;
    private Integer numero;
