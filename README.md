@@ -1,5 +1,11 @@
 # Beca Desafio João Victor Barreto Lourenço
 
+![alt text](diagramaBeca.png)
+
+Diagrama.
+
+
+
 > Status: Developing  ⚠️
  
 ### Essa é uma aplicação feita por mim, referente ao desafio da BECA JAVA.
@@ -16,7 +22,8 @@
 * JAVA 13
 * Spring Boot 2.6.2
 * Intellij IDE 2021.3.1
-* Git.
+* Git
+* H2 - Banco de dados
 
 
 ## Função.
