@@ -1,7 +1,7 @@
 package com.desafioBeca.pdv.controllers;
 
 
-import com.desafioBeca.pdv.model.Venda;
+import com.desafioBeca.pdv.models.Venda;
 import com.desafioBeca.pdv.services.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class VendaController {
     @GetMapping
     public ResponseEntity<List<Venda>> lista() {
 
-        List listaDeVenda = vendaService.lista();
+        List<Venda> listaDeVenda = vendaService.lista();
 
         return ResponseEntity.ok(listaDeVenda);
 

@@ -2,72 +2,63 @@ package com.desafioBeca.pdv.services;
 
 
 import com.desafioBeca.pdv.Interfaces.VendaInterface;
-import com.desafioBeca.pdv.model.Venda;;
+import com.desafioBeca.pdv.models.Produto;
+import com.desafioBeca.pdv.models.Venda;;
+import com.desafioBeca.pdv.repositories.VendaRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class VendaService implements VendaInterface {
 
+    private final VendaRepository vendaRepository;
 
+    private final ProdutoService produtoService;
 
     public Venda criar(Venda venda) {
 
-        System.out.println(venda);
+        Produto produtoCriado = produtoService.obter(venda.getProduto().getId());
+        venda.setProduto(produtoCriado);
+        Venda novaVenda = vendaRepository.save(venda);
 
-        venda.setId(1);
-
-        System.out.println("Nova venda ");
-
-        return venda;
-
+        return novaVenda;
     }
-
 
     public List<Venda> lista() {
 
-        Venda ven1 = new Venda();
-        ven1.setId(1);
-        ven1.setNome("venda concluida");
-
-        Venda ven2 = new Venda();
-        ven2.setId(2);
-        ven2.setNome("venda efetuada");
-
-        Venda ven3 = new Venda();
-        ven3.setId(3);
-        ven3.setNome("ficando rico");
-
-        return List.of(
-                ven1,
-                ven2,
-                ven3
-        );
-
+        List<Venda> listaVenda = vendaRepository.findAll();
+        return listaVenda;
     }
-
 
     public Venda atualizar(Venda venda, Integer id) {
 
-        venda.setId(id);
+        Venda vendaObtida = this.obter(id);
+        vendaObtida.setValorFinal(venda.getValorFinal());
+        vendaObtida.setQuantidadeFinal(venda.getQuantidadeFinal());
+        Produto produtoObtido = produtoService.obter(venda.getProduto().getId());
+        vendaObtida.setProduto(produtoObtido);
 
-        return venda;
+        return vendaObtida;
     }
 
 
     public void deleta(Integer id) {
+        vendaRepository.deleteById(id);
 
     }
 
+    public Venda obter(Integer id) {
 
-    public Venda obter(Integer id ) {
+        Venda vendaSelecao = vendaRepository.findById(id).get();
 
-        Venda ven1 = new Venda();
-        ven1.setId(id);
-        ven1.setNome("ta de boa ");
-
-        return ven1;
+        if (vendaSelecao == null) {
+            throw new RuntimeException("Id de venda não existe! ");
+        }
+        return vendaSelecao;
 
     }
 }

@@ -1,6 +1,6 @@
 package com.desafioBeca.pdv.controllers;
 
-import com.desafioBeca.pdv.model.Cliente;
+import com.desafioBeca.pdv.models.Cliente;
 import com.desafioBeca.pdv.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class ClienteController {
     @GetMapping
     public ResponseEntity<List<Cliente>> listar () {
 
-       List listaDeCliente = clienteService.listar();
+       List<Cliente> listaDeCliente = clienteService.listar();
 
         return ResponseEntity.ok(listaDeCliente);
 

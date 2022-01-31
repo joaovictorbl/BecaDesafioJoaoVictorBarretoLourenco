@@ -1,12 +1,12 @@
 package com.desafioBeca.pdv.Interfaces;
 
-import com.desafioBeca.pdv.model.Venda;
+import com.desafioBeca.pdv.models.Venda;
 
 import java.util.List;
 
 public interface VendaInterface {
 
-    Venda criar (Venda venda);
+    Venda criar(Venda venda);
 
     List<Venda> lista();
 

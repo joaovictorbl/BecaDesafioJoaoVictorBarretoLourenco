@@ -1,7 +1,7 @@
 package com.desafioBeca.pdv.controllers;
 
 
-import com.desafioBeca.pdv.model.Funcionario;
+import com.desafioBeca.pdv.models.Funcionario;
 import com.desafioBeca.pdv.services.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class FuncionarioController {
      @GetMapping
     public ResponseEntity<List<Funcionario>> lista () {
 
-        List listaDeFuncionario = funcionarioService.lista();
+        List<Funcionario> listaDeFuncionario = funcionarioService.lista();
 
         return ResponseEntity.ok(listaDeFuncionario);
      }

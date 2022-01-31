@@ -1,19 +1,19 @@
 package com.desafioBeca.pdv.Interfaces;
 
-import com.desafioBeca.pdv.model.Funcionario;
+import com.desafioBeca.pdv.models.Funcionario;
 
 import java.util.List;
 
 public interface FuncionarioInterface {
 
-    Funcionario criar (Funcionario funcionario);
+    Funcionario criar(Funcionario funcionario);
 
-    List<Funcionario> lista ();
+    List<Funcionario> lista();
 
-    Funcionario atualizar (Funcionario funcionario, Integer id);
+    Funcionario atualizar(Funcionario funcionario, Integer id);
 
-    void deletar (Integer id);
+    void deletar(Integer id);
 
-    Funcionario obter (Integer id);
+    Funcionario obter(Integer id);
 
 }

@@ -1,7 +1,9 @@
 package com.desafioBeca.pdv.services;
 
 import com.desafioBeca.pdv.Interfaces.ClienteInterface;
-import com.desafioBeca.pdv.model.Cliente;
+import com.desafioBeca.pdv.models.Cliente;
+import com.desafioBeca.pdv.repositories.ClienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,60 +11,53 @@ import java.util.List;
 @Service
 public class ClienteService implements ClienteInterface {
 
-    public Cliente criar (Cliente cliente) {
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-        System.out.println(cliente);
+    public Cliente criar(Cliente cliente) {
 
-        cliente.setId(1);
+        Cliente clienteNovo = clienteRepository.save(cliente);
 
-        System.out.println("novo cliente");
-
-        return cliente;
+        return clienteNovo;
 
     }
 
-    public List<Cliente> listar () {
+    public List<Cliente> listar() {
 
-        Cliente cli1 = new Cliente();
-        cli1.setId(1);
-        cli1.setNome("fulano");
+        List<Cliente> listaCliente = clienteRepository.findAll();
 
-        Cliente cli2 = new Cliente();
-        cli2.setId(2);
-        cli2.setNome("Alguém ");
-
-        Cliente cli3 = new Cliente();
-        cli3.setId(3);
-        cli3.setNome("bla bla bla");
-
-        return List.of(
-                cli1,
-                cli2,
-                cli3
-        );
+        return listaCliente;
     }
 
-    public Cliente atualizar (Cliente cliente, Integer id) {
+    public Cliente atualizar(Cliente cliente, Integer id) {
 
-        cliente.setId(id);
+        Cliente clienteObtido = this.obter(id);
+        clienteObtido.setNome(cliente.getNome());
+        clienteObtido.setCep(cliente.getCep());
+        clienteObtido.setCpf(cliente.getCpf());
+        clienteObtido.setLogradouro(cliente.getLogradouro());
+        clienteObtido.setNumero(cliente.getNumero());
+        clienteRepository.save(clienteObtido);
 
-        return cliente;
+        return clienteObtido;
 
     }
 
 
-    public void deletar (Integer id) {
-
+    public void deletar(Integer id) {
+        clienteRepository.deleteById(id);
 
     }
 
 
-    public Cliente  obter (Integer id) {
+    public Cliente obter(Integer id) {
 
-        Cliente cli1 = new Cliente();
-        cli1.setId(id);
-        cli1.setNome("joão");
+        Cliente clienteSelecao = clienteRepository.findById(id).get();
 
-        return cli1;
+        if (clienteSelecao == null){
+            throw new RuntimeException("Id cliente não existe! ");
+        }
+
+        return clienteSelecao;
     }
 }

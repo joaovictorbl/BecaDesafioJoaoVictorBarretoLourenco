@@ -1,7 +1,9 @@
 package com.desafioBeca.pdv.services;
 
 import com.desafioBeca.pdv.Interfaces.FuncionarioInterface;
-import com.desafioBeca.pdv.model.Funcionario;
+import com.desafioBeca.pdv.models.Funcionario;
+import com.desafioBeca.pdv.repositories.FuncionarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,55 +11,54 @@ import java.util.List;
 @Service
 public class FuncionarioService implements FuncionarioInterface {
 
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
+
+
     public Funcionario criar (Funcionario funcionario) {
 
-        System.out.println(funcionario);
+       Funcionario funcionarioNovo = funcionarioRepository.save(funcionario);
 
-        funcionario.setId(1);
-
-        System.out.println("novo fucionario");
-
-        return funcionario;
-
+        return funcionarioNovo;
     }
 
 
-    public List<Funcionario> lista () {
+    public List<Funcionario> lista() {
 
-        Funcionario fu1 = new Funcionario();
-        fu1.setId(1);
-        fu1.setNome("carlos");
+       List<Funcionario> listaFuncionario = funcionarioRepository.findAll();
 
-        Funcionario fu2 = new Funcionario();
-        fu2.setId(2);
-        fu2.setNome("pedro");
-
-        return List.of(fu1, fu2);
+        return listaFuncionario;
     }
 
 
     public Funcionario atualizar (Funcionario funcionario, Integer id) {
 
-        funcionario.setId(id);
+        Funcionario funcionarioObtido = this.obter(id);
+        funcionarioObtido.setNome(funcionario.getNome());
+        funcionarioObtido.setCpf(funcionario.getCpf());
+        funcionarioObtido.setNumero(funcionario.getNumero());
+        funcionarioObtido.setCep(funcionario.getCep());
+        funcionarioObtido.setLogradouro(funcionario.getLogradouro());
+        funcionarioRepository.save(funcionarioObtido);
 
-        return funcionario;
-
+        return funcionarioObtido;
     }
 
 
     public void deletar (Integer id) {
-
+        funcionarioRepository.deleteById(id);
 
     }
 
 
     public Funcionario obter (Integer id ) {
 
-        Funcionario fu1 = new Funcionario();
-        fu1.setId(id);
-        fu1.setNome("patrão");
+        Funcionario funcuinarioSelecao = funcionarioRepository.findById(id).get();
 
-        return fu1;
+        if (funcuinarioSelecao == null) {
+            throw new RuntimeException("Id funcionario não existe! ");
+        }
+        return funcuinarioSelecao;
     }
 
 }

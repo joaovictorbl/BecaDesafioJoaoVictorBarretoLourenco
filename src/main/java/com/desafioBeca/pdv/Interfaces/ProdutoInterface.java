@@ -1,6 +1,6 @@
 package com.desafioBeca.pdv.Interfaces;
 
-import com.desafioBeca.pdv.model.Produto;
+import com.desafioBeca.pdv.models.Produto;
 
 import java.util.List;
 

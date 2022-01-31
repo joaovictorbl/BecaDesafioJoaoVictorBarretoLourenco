@@ -1,7 +1,11 @@
 package com.desafioBeca.pdv.services;
 
 import com.desafioBeca.pdv.Interfaces.ProdutoInterface;
-import com.desafioBeca.pdv.model.Produto;
+import com.desafioBeca.pdv.models.Funcionario;
+import com.desafioBeca.pdv.models.Produto;
+import com.desafioBeca.pdv.repositories.FuncionarioRepository;
+import com.desafioBeca.pdv.repositories.ProdutoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,60 +13,48 @@ import java.util.List;
 @Service
 public class ProdutoService implements ProdutoInterface {
 
+    @Autowired
+    private ProdutoRepository produtoRepository;
+
 
     public Produto criar(Produto produto) {
 
-        System.out.println(produto);
-
-        produto.setId(1);
-
-        System.out.println("nnvo produto");
-
-        return produto;
-
+        Produto produtoNovo = produtoRepository.save(produto);
+        return produtoNovo;
     }
 
 
     public List<Produto> lista() {
 
-        Produto pro1 = new Produto();
-        pro1.setId(1);
-        pro1.setNome("calça");
-
-        Produto pro2 = new Produto();
-        pro2.setId(2);
-        pro2.setNome("camisa");
-
-        return List.of(
-                pro1,
-                pro2
-        );
-
+        List<Produto> listaProdutos = produtoRepository.findAll();
+        return listaProdutos;
     }
 
 
     public Produto atualizar(Produto produto, Integer id) {
 
-        produto.setId(id);
+        Produto produtoObtido = this.obter(id);
+        produtoObtido.setNome(produto.getNome());
+        produtoObtido.setValor(produto.getValor());
+        produtoObtido.setQuantidade(produto.getQuantidade());
+        produtoObtido.setDescricao(produto.getDescricao());
+        produtoRepository.save(produtoObtido);
 
-        return produto;
-
+        return produtoObtido;
     }
-
 
     public void deletar(Integer id) {
-
-
+        produtoRepository.deleteById(id);
     }
-
 
     public Produto obter(Integer id) {
 
-        Produto pro1 = new Produto();
-        pro1.setId(id);
-        pro1.setNome("bermuda");
+        Produto produtoSelecao = produtoRepository.findById(id).get();
 
-        return pro1;
+        if (produtoSelecao == null){
+            throw new RuntimeException("Id funcionario não existe");
+        }
 
+        return produtoSelecao;
     }
 }
