@@ -1,6 +1,8 @@
 package com.desafioBeca.pdv.services;
 
 import com.desafioBeca.pdv.Interfaces.ProdutoInterface;
+import com.desafioBeca.pdv.dtos.requests.PostProdutoRequest;
+import com.desafioBeca.pdv.dtos.responses.PostProdutoReponse;
 import com.desafioBeca.pdv.models.Funcionario;
 import com.desafioBeca.pdv.models.Produto;
 import com.desafioBeca.pdv.repositories.FuncionarioRepository;
@@ -17,10 +19,13 @@ public class ProdutoService implements ProdutoInterface {
     private ProdutoRepository produtoRepository;
 
 
-    public Produto criar(Produto produto) {
+    public PostProdutoReponse criar(PostProdutoRequest postProdutoRequest) {
 
-        Produto produtoNovo = produtoRepository.save(produto);
-        return produtoNovo;
+        Produto produtoNovo = this.produtoPost(postProdutoRequest);
+        produtoRepository.save(produtoNovo);
+        PostProdutoReponse produtoResposta = this.postProdutoReponse(produtoNovo);
+
+        return produtoResposta;
     }
 
 
@@ -57,4 +62,25 @@ public class ProdutoService implements ProdutoInterface {
 
         return produtoSelecao;
     }
+
+    private Produto produtoPost(PostProdutoRequest postProdutoRequest) {
+     Produto produto = new Produto();
+     produto.setNome(postProdutoRequest.getNome());
+     produto.setValor(postProdutoRequest.getValor());
+     produto.setQuantidade(postProdutoRequest.getQuantidade());
+     produto.setDescricao(postProdutoRequest.getDescricao());
+
+     return produto;
+    }
+
+    private  PostProdutoReponse postProdutoReponse (Produto produto) {
+        PostProdutoReponse postProdutoReponse = new PostProdutoReponse();
+        postProdutoReponse.setNome(produto.getNome());
+        postProdutoReponse.setValor(produto.getValor());
+        postProdutoReponse.setQuantidade(produto.getQuantidade());
+        postProdutoReponse.setDescricao(produto.getDescricao());
+
+        return postProdutoReponse;
+    }
+
 }

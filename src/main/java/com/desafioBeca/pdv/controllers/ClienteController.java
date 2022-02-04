@@ -1,5 +1,7 @@
 package com.desafioBeca.pdv.controllers;
 
+import com.desafioBeca.pdv.dtos.requests.PostClienteResquest;
+import com.desafioBeca.pdv.dtos.responses.PostClienteResponse;
 import com.desafioBeca.pdv.models.Cliente;
 import com.desafioBeca.pdv.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,9 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<Cliente> criar (@RequestBody Cliente cliente) {
+    public ResponseEntity<PostClienteResponse> criar (@RequestBody PostClienteResquest postClienteResquest) {
 
-        Cliente clienteCriado = clienteService.criar(cliente);
+        PostClienteResponse clienteCriado = clienteService.criar(postClienteResquest);
 
         return ResponseEntity.created(null).body(clienteCriado);
 

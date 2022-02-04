@@ -1,6 +1,8 @@
 package com.desafioBeca.pdv.controllers;
 
 
+import com.desafioBeca.pdv.dtos.requests.PostFuncionarioRequest;
+import com.desafioBeca.pdv.dtos.responses.PostFuncionarioResponse;
 import com.desafioBeca.pdv.models.Funcionario;
 import com.desafioBeca.pdv.services.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,8 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
 
     @PostMapping
-    public ResponseEntity<Funcionario> criar (@RequestBody Funcionario funcionario) {
-
-        Funcionario funcionarioCriado = funcionarioService.criar(funcionario);
-
+    public ResponseEntity<PostFuncionarioResponse> criar(@RequestBody PostFuncionarioRequest postFuncionarioRequest) {
+        PostFuncionarioResponse funcionarioCriado = funcionarioService.criar(postFuncionarioRequest);
         return ResponseEntity.created(null).body(funcionarioCriado);
 
     }

@@ -1,12 +1,14 @@
 package com.desafioBeca.pdv.Interfaces;
 
+import com.desafioBeca.pdv.dtos.requests.PostFuncionarioRequest;
+import com.desafioBeca.pdv.dtos.responses.PostFuncionarioResponse;
 import com.desafioBeca.pdv.models.Funcionario;
 
 import java.util.List;
 
 public interface FuncionarioInterface {
 
-    Funcionario criar(Funcionario funcionario);
+    PostFuncionarioResponse criar(PostFuncionarioRequest postFuncionarioRequest);
 
     List<Funcionario> lista();
 

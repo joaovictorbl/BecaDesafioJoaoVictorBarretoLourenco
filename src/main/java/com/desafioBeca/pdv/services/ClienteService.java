@@ -1,6 +1,8 @@
 package com.desafioBeca.pdv.services;
 
 import com.desafioBeca.pdv.Interfaces.ClienteInterface;
+import com.desafioBeca.pdv.dtos.requests.PostClienteResquest;
+import com.desafioBeca.pdv.dtos.responses.PostClienteResponse;
 import com.desafioBeca.pdv.models.Cliente;
 import com.desafioBeca.pdv.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +16,12 @@ public class ClienteService implements ClienteInterface {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public Cliente criar(Cliente cliente) {
+    public PostClienteResponse criar(PostClienteResquest postClienteResquest) {
 
-        Cliente clienteNovo = clienteRepository.save(cliente);
-
-        return clienteNovo;
+        Cliente clienteNovo = this.postClienteRequest(postClienteResquest);
+        clienteRepository.save(clienteNovo);
+        PostClienteResponse clienteRes = this.postClienteResponse(clienteNovo);
+        return clienteRes;
 
     }
 
@@ -36,7 +39,7 @@ public class ClienteService implements ClienteInterface {
         clienteObtido.setCep(cliente.getCep());
         clienteObtido.setCpf(cliente.getCpf());
         clienteObtido.setLogradouro(cliente.getLogradouro());
-        clienteObtido.setNumero(cliente.getNumero());
+        clienteObtido.setTelefone(cliente.getTelefone());
         clienteRepository.save(clienteObtido);
 
         return clienteObtido;
@@ -54,10 +57,29 @@ public class ClienteService implements ClienteInterface {
 
         Cliente clienteSelecao = clienteRepository.findById(id).get();
 
-        if (clienteSelecao == null){
+        if (clienteSelecao == null) {
             throw new RuntimeException("Id cliente não existe! ");
         }
 
         return clienteSelecao;
+    }
+
+    private Cliente postClienteRequest(PostClienteResquest postClienteResquest) {
+        Cliente clientePost = new Cliente();
+        clientePost.setNome(postClienteResquest.getNome());
+        clientePost.setCpf(postClienteResquest.getCpf());
+        clientePost.setTelefone(postClienteResquest.getTelefone());
+        clientePost.setLogradouro(postClienteResquest.getLogradouro());
+        clientePost.setCep(postClienteResquest.getCep());
+
+        return clientePost;
+    }
+
+    private  PostClienteResponse postClienteResponse(Cliente cliente){
+        PostClienteResponse clienteResponse = new PostClienteResponse();
+        clienteResponse.setNome(cliente.getNome());
+        clienteResponse.setTelefone(cliente.getTelefone());
+
+        return clienteResponse;
     }
 }

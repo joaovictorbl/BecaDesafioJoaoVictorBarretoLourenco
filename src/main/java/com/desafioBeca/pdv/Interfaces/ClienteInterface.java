@@ -1,12 +1,16 @@
 package com.desafioBeca.pdv.Interfaces;
 
+import com.desafioBeca.pdv.dtos.requests.PostClienteResquest;
+import com.desafioBeca.pdv.dtos.responses.PostClienteResponse;
 import com.desafioBeca.pdv.models.Cliente;
 
 import java.util.List;
 
-public interface ClienteInterface {
+public interface
 
-    Cliente criar(Cliente cliente);
+ClienteInterface {
+
+    PostClienteResponse criar(PostClienteResquest postClienteResquest);
 
     List<Cliente> listar();
 
