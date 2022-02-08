@@ -1,27 +1,10 @@
-package com.desafioBeca.pdv.dtos.responses;
+package com.desafioBeca.pdv.dtos.requests;
 
-public class PostVendaResponse {
+public class PatchVendaRequest {
 
     private Double valorFinal;
     private Integer quantidadeFinal;
-    private String produto;
-    private Integer id;
-
-    public String getProduto() {
-        return produto;
-    }
-
-    public void setProduto(String produto) {
-        this.produto = produto;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private  Integer produto;
 
     public Double getValorFinal() {
         return valorFinal;

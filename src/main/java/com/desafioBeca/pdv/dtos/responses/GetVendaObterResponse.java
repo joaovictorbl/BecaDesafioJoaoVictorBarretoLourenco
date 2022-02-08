@@ -1,9 +1,9 @@
 package com.desafioBeca.pdv.dtos.responses;
 
-public class PostVejdaResponse {
+public class GetVendaObterResponse {
 
     private Double valorFinal;
-    private Integer quantidadefinal;
+    private Integer quantidadeFinal;
 
     public Double getValorFinal() {
         return valorFinal;
@@ -13,11 +13,11 @@ public class PostVejdaResponse {
         this.valorFinal = valorFinal;
     }
 
-    public Integer getQuantidadefinal() {
-        return quantidadefinal;
+    public Integer getQuantidadeFinal() {
+        return quantidadeFinal;
     }
 
-    public void setQuantidadefinal(Integer quantidadefinal) {
-        this.quantidadefinal = quantidadefinal;
+    public void setQuantidadeFinal(Integer quantidadeFinal) {
+        this.quantidadeFinal = quantidadeFinal;
     }
 }

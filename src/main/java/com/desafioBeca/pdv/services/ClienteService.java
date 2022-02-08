@@ -1,14 +1,20 @@
 package com.desafioBeca.pdv.services;
 
 import com.desafioBeca.pdv.Interfaces.ClienteInterface;
+import com.desafioBeca.pdv.dtos.requests.PatchClienteResquest;
 import com.desafioBeca.pdv.dtos.requests.PostClienteResquest;
+import com.desafioBeca.pdv.dtos.responses.GetClienteListarResponse;
+import com.desafioBeca.pdv.dtos.responses.GetClienteObterResponse;
+import com.desafioBeca.pdv.dtos.responses.PatchClienteResponse;
 import com.desafioBeca.pdv.dtos.responses.PostClienteResponse;
 import com.desafioBeca.pdv.models.Cliente;
 import com.desafioBeca.pdv.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService implements ClienteInterface {
@@ -25,24 +31,23 @@ public class ClienteService implements ClienteInterface {
 
     }
 
-    public List<Cliente> listar() {
+    public List<GetClienteListarResponse> listar() {
 
         List<Cliente> listaCliente = clienteRepository.findAll();
 
-        return listaCliente;
+        return listaCliente.stream().map(
+                cliente -> this.converter(cliente)
+        ).collect(Collectors.toList());
     }
 
-    public Cliente atualizar(Cliente cliente, Integer id) {
+    public PatchClienteResponse atualizar(PatchClienteResquest patchClienteResquest, Integer id) {
 
-        Cliente clienteObtido = this.obter(id);
-        clienteObtido.setNome(cliente.getNome());
-        clienteObtido.setCep(cliente.getCep());
-        clienteObtido.setCpf(cliente.getCpf());
-        clienteObtido.setLogradouro(cliente.getLogradouro());
-        clienteObtido.setTelefone(cliente.getTelefone());
+        Cliente clienteObtido = clienteRepository.findById(id).get();
+        clienteObtido = this.patchClienteRequest(patchClienteResquest);
         clienteRepository.save(clienteObtido);
 
-        return clienteObtido;
+
+        return this.patchClienteResponse(clienteObtido);
 
     }
 
@@ -53,7 +58,7 @@ public class ClienteService implements ClienteInterface {
     }
 
 
-    public Cliente obter(Integer id) {
+    public GetClienteObterResponse obter(Integer id) {
 
         Cliente clienteSelecao = clienteRepository.findById(id).get();
 
@@ -61,7 +66,7 @@ public class ClienteService implements ClienteInterface {
             throw new RuntimeException("Id cliente não existe! ");
         }
 
-        return clienteSelecao;
+        return this.getClienteObterResponse(clienteSelecao);
     }
 
     private Cliente postClienteRequest(PostClienteResquest postClienteResquest) {
@@ -82,4 +87,47 @@ public class ClienteService implements ClienteInterface {
 
         return clienteResponse;
     }
+
+    private GetClienteObterResponse getClienteObterResponse (Cliente cliente) {
+        GetClienteObterResponse clienteGet = new GetClienteObterResponse();
+        clienteGet.setNome(cliente.getNome());
+        clienteGet.setCpf(cliente.getCpf());
+        clienteGet.setTelefone(cliente.getTelefone());
+        clienteGet.setCep(cliente.getCep());
+        clienteGet.setLogradouro(cliente.getLogradouro());
+
+        return clienteGet;
+    }
+
+    private Cliente patchClienteRequest (PatchClienteResquest patchClienteResquest) {
+        Cliente clienteAtualizar = new Cliente();
+        clienteAtualizar.setNome(patchClienteResquest.getNome());
+        clienteAtualizar.setCpf(patchClienteResquest.getCpf());
+        clienteAtualizar.setTelefone(patchClienteResquest.getTelefone());
+        clienteAtualizar.setCep(patchClienteResquest.getCep());
+        clienteAtualizar.setLogradouro(patchClienteResquest.getLogradouro());
+
+        return clienteAtualizar;
+    }
+
+    private PatchClienteResponse patchClienteResponse (Cliente cliente) {
+        PatchClienteResponse clientePatch = new PatchClienteResponse();
+        clientePatch.setNome(cliente.getNome());
+        clientePatch.setCpf(cliente.getCpf());
+        clientePatch.setTelefone(cliente.getTelefone());
+        clientePatch.setCep(cliente.getCep());
+        clientePatch.setLogradouro(cliente.getLogradouro());
+
+        return clientePatch;
+    }
+
+    private GetClienteListarResponse converter(Cliente cliente) {
+        GetClienteListarResponse clienteListar = new GetClienteListarResponse();
+        clienteListar.setId(cliente.getId());
+        clienteListar.setNome(cliente.getNome());
+
+        return clienteListar;
+
+    }
+
 }

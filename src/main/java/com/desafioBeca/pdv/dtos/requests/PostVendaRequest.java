@@ -4,6 +4,16 @@ public class PostVendaRequest {
 
     private Double valorFinal;
     private Integer quantidadeFinal;
+    private  Integer produto;
+
+
+    public Integer getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Integer produto) {
+        this.produto = produto;
+    }
 
     public Double getValorFinal() {
         return valorFinal;

@@ -1,6 +1,10 @@
 package com.desafioBeca.pdv.Interfaces;
 
+import com.desafioBeca.pdv.dtos.requests.PatchClienteResquest;
 import com.desafioBeca.pdv.dtos.requests.PostClienteResquest;
+import com.desafioBeca.pdv.dtos.responses.GetClienteListarResponse;
+import com.desafioBeca.pdv.dtos.responses.GetClienteObterResponse;
+import com.desafioBeca.pdv.dtos.responses.PatchClienteResponse;
 import com.desafioBeca.pdv.dtos.responses.PostClienteResponse;
 import com.desafioBeca.pdv.models.Cliente;
 
@@ -12,12 +16,12 @@ ClienteInterface {
 
     PostClienteResponse criar(PostClienteResquest postClienteResquest);
 
-    List<Cliente> listar();
+    List<GetClienteListarResponse> listar();
 
     void deletar(Integer id);
 
-    Cliente atualizar(Cliente cliente, Integer id);
+    PatchClienteResponse atualizar(PatchClienteResquest patchClienteResquest, Integer id);
 
-    Cliente obter(Integer id);
+    GetClienteObterResponse obter(Integer id);
 
 }
