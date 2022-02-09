@@ -7,8 +7,10 @@ import com.desafioBeca.pdv.dtos.responses.GetClienteListarResponse;
 import com.desafioBeca.pdv.dtos.responses.GetClienteObterResponse;
 import com.desafioBeca.pdv.dtos.responses.PatchClienteResponse;
 import com.desafioBeca.pdv.dtos.responses.PostClienteResponse;
+import com.desafioBeca.pdv.mappers.cliente.*;
 import com.desafioBeca.pdv.models.Cliente;
 import com.desafioBeca.pdv.repositories.ClienteRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,37 +19,41 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService implements ClienteInterface {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+
+    private final ClienteRepository clienteRepository;
+    private final MapperClienteGetListResponse mapperClienteGetListResponse;
+    private final MapperClienteGetObterResponse mapperClienteGetObterResponse;
+    private final MapperClientePatchResponse mapperClientePatchResponse;
+    private final MapperClientePatchResquest mapperClientePatchResquest;
+    private final MapperClientePostRequest mapperClientePostRequest;
+    private final MapperClientePostResponse mapperClientePostResponse;
 
     public PostClienteResponse criar(PostClienteResquest postClienteResquest) {
 
-        Cliente clienteNovo = this.postClienteRequest(postClienteResquest);
+        Cliente clienteNovo = mapperClientePostRequest.toModel(postClienteResquest);
         clienteRepository.save(clienteNovo);
-        PostClienteResponse clienteRes = this.postClienteResponse(clienteNovo);
-        return clienteRes;
+        return mapperClientePostResponse.toResponse(clienteNovo);
 
     }
 
     public List<GetClienteListarResponse> listar() {
 
         List<Cliente> listaCliente = clienteRepository.findAll();
-
         return listaCliente.stream().map(
-                cliente -> this.converter(cliente)
+                cliente -> mapperClienteGetListResponse.toResponse(cliente)
         ).collect(Collectors.toList());
     }
 
     public PatchClienteResponse atualizar(PatchClienteResquest patchClienteResquest, Integer id) {
 
         Cliente clienteObtido = clienteRepository.findById(id).get();
-        clienteObtido = this.patchClienteRequest(patchClienteResquest);
+        mapperClientePatchResquest.atualizar(patchClienteResquest, clienteObtido);
         clienteRepository.save(clienteObtido);
 
-
-        return this.patchClienteResponse(clienteObtido);
+        return mapperClientePatchResponse.toResponse(clienteObtido);
 
     }
 
@@ -66,68 +72,6 @@ public class ClienteService implements ClienteInterface {
             throw new RuntimeException("Id cliente não existe! ");
         }
 
-        return this.getClienteObterResponse(clienteSelecao);
+        return mapperClienteGetObterResponse.toResponse(clienteSelecao);
     }
-
-    private Cliente postClienteRequest(PostClienteResquest postClienteResquest) {
-        Cliente clientePost = new Cliente();
-        clientePost.setNome(postClienteResquest.getNome());
-        clientePost.setCpf(postClienteResquest.getCpf());
-        clientePost.setTelefone(postClienteResquest.getTelefone());
-        clientePost.setLogradouro(postClienteResquest.getLogradouro());
-        clientePost.setCep(postClienteResquest.getCep());
-
-        return clientePost;
-    }
-
-    private  PostClienteResponse postClienteResponse(Cliente cliente){
-        PostClienteResponse clienteResponse = new PostClienteResponse();
-        clienteResponse.setNome(cliente.getNome());
-        clienteResponse.setTelefone(cliente.getTelefone());
-
-        return clienteResponse;
-    }
-
-    private GetClienteObterResponse getClienteObterResponse (Cliente cliente) {
-        GetClienteObterResponse clienteGet = new GetClienteObterResponse();
-        clienteGet.setNome(cliente.getNome());
-        clienteGet.setCpf(cliente.getCpf());
-        clienteGet.setTelefone(cliente.getTelefone());
-        clienteGet.setCep(cliente.getCep());
-        clienteGet.setLogradouro(cliente.getLogradouro());
-
-        return clienteGet;
-    }
-
-    private Cliente patchClienteRequest (PatchClienteResquest patchClienteResquest) {
-        Cliente clienteAtualizar = new Cliente();
-        clienteAtualizar.setNome(patchClienteResquest.getNome());
-        clienteAtualizar.setCpf(patchClienteResquest.getCpf());
-        clienteAtualizar.setTelefone(patchClienteResquest.getTelefone());
-        clienteAtualizar.setCep(patchClienteResquest.getCep());
-        clienteAtualizar.setLogradouro(patchClienteResquest.getLogradouro());
-
-        return clienteAtualizar;
-    }
-
-    private PatchClienteResponse patchClienteResponse (Cliente cliente) {
-        PatchClienteResponse clientePatch = new PatchClienteResponse();
-        clientePatch.setNome(cliente.getNome());
-        clientePatch.setCpf(cliente.getCpf());
-        clientePatch.setTelefone(cliente.getTelefone());
-        clientePatch.setCep(cliente.getCep());
-        clientePatch.setLogradouro(cliente.getLogradouro());
-
-        return clientePatch;
-    }
-
-    private GetClienteListarResponse converter(Cliente cliente) {
-        GetClienteListarResponse clienteListar = new GetClienteListarResponse();
-        clienteListar.setId(cliente.getId());
-        clienteListar.setNome(cliente.getNome());
-
-        return clienteListar;
-
-    }
-
 }

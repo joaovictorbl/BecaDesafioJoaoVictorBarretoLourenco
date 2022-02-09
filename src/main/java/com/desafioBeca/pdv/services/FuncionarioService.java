@@ -5,8 +5,10 @@ import com.desafioBeca.pdv.dtos.requests.PatchClienteResquest;
 import com.desafioBeca.pdv.dtos.requests.PatchFuncionarioRequest;
 import com.desafioBeca.pdv.dtos.requests.PostFuncionarioRequest;
 import com.desafioBeca.pdv.dtos.responses.*;
+import com.desafioBeca.pdv.mappers.funcionario.*;
 import com.desafioBeca.pdv.models.Funcionario;
 import com.desafioBeca.pdv.repositories.FuncionarioRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,37 +16,40 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FuncionarioService implements FuncionarioInterface {
 
-    @Autowired
-    private FuncionarioRepository funcionarioRepository;
+
+    private final FuncionarioRepository funcionarioRepository;
+    private final MapperFuncionarioGetResponse mapperFuncionarioGetResponse;
+    private final MapperFuncionarioListResponse mapperFuncionarioListResponse;
+    private final MapperFuncionarioPatchRequest mapperFuncionarioPatchRequest;
+    private final MapperFuncionarioPatchResponse mapperFuncionarioPatchResponse;
+    private final MapperFuncionarioPostRequest mapperFuncionarioPostRequest;
+    private final MapperFuncionarioPostResponse mapperFuncionarioPostResponse;
 
 
     public PostFuncionarioResponse criar(PostFuncionarioRequest postFuncionarioRequest) {
 
-        Funcionario funcionarioNovo = this.funcionarioPost(postFuncionarioRequest);
+        Funcionario funcionarioNovo = mapperFuncionarioPostRequest.toModel(postFuncionarioRequest);
         funcionarioRepository.save(funcionarioNovo);
-        PostFuncionarioResponse funcionarioPost = this.postFuncionarioResponse(funcionarioNovo);
-
-        return funcionarioPost;
+        return mapperFuncionarioPostResponse.toResponse(funcionarioNovo);
     }
 
 
     public List<GetFuncionarioListarResponse> lista() {
 
         List<Funcionario> listaFuncionario = funcionarioRepository.findAll();
-
-        return listaFuncionario.stream().map(funcionario ->
-                this.converte(funcionario)).collect(Collectors.toList());
+        return listaFuncionario.stream().map(mapperFuncionarioListResponse::toResponse).collect(Collectors.toList());
     }
 
     public PatchFuncionarioResponse atualizar(PatchFuncionarioRequest patchFuncionarioRequest, Integer id) {
 
         Funcionario funcionarioObtido = funcionarioRepository.findById(id).get();
-       funcionarioObtido = this.patchFuncionarioRequest(patchFuncionarioRequest);
+        mapperFuncionarioPatchRequest.atualizar(patchFuncionarioRequest, funcionarioObtido);
         funcionarioRepository.save(funcionarioObtido);
 
-        return this.patchFuncionarioResponse(funcionarioObtido);
+        return mapperFuncionarioPatchResponse.toReponse(funcionarioObtido);
     }
 
 
@@ -61,66 +66,6 @@ public class FuncionarioService implements FuncionarioInterface {
         if (funcionario == null) {
             throw new RuntimeException("Id funcionario não existe! ");
         }
-        return this.getFuncionarioObterResponse(funcionario);
+        return mapperFuncionarioGetResponse.toResponse(funcionario);
     }
-
-    private Funcionario funcionarioPost(PostFuncionarioRequest postFuncionarioRequest) {
-        Funcionario funcionario = new Funcionario();
-        funcionario.setNome(postFuncionarioRequest.getNome());
-        funcionario.setCpf(postFuncionarioRequest.getCpf());
-        funcionario.setTelefone(postFuncionarioRequest.getTelefone());
-        funcionario.setLogradouro(postFuncionarioRequest.getLogradouro());
-        funcionario.setCep(postFuncionarioRequest.getCep());
-
-        return funcionario;
-    }
-
-    private PostFuncionarioResponse postFuncionarioResponse(Funcionario funcionario) {
-        PostFuncionarioResponse postFuncionarioResponse = new PostFuncionarioResponse();
-        postFuncionarioResponse.setNome(funcionario.getNome());
-
-        return postFuncionarioResponse;
-    }
-
-    private GetFuncionarioObterResponse getFuncionarioObterResponse(Funcionario funcionario) {
-        GetFuncionarioObterResponse funcionarioGet = new GetFuncionarioObterResponse();
-        funcionarioGet.setNome(funcionario.getNome());
-        funcionarioGet.setCpf(funcionario.getCpf());
-        funcionarioGet.setTelefone(funcionario.getTelefone());
-        funcionarioGet.setCep(funcionario.getCep());
-        funcionarioGet.setLogradouro(funcionarioGet.getLogradouro());
-
-        return funcionarioGet;
-    }
-
-    private Funcionario patchFuncionarioRequest(PatchFuncionarioRequest patchFuncionarioRequest) {
-        Funcionario funcionarioAtualizar = new Funcionario();
-        funcionarioAtualizar.setNome(patchFuncionarioRequest.getNome());
-        funcionarioAtualizar.setCpf(patchFuncionarioRequest.getCpf());
-        funcionarioAtualizar.setTelefone(patchFuncionarioRequest.getTelefone());
-        funcionarioAtualizar.setCep(patchFuncionarioRequest.getCep());
-        funcionarioAtualizar.setLogradouro(patchFuncionarioRequest.getLogradouro());
-
-        return funcionarioAtualizar;
-    }
-
-    private PatchFuncionarioResponse patchFuncionarioResponse(Funcionario funcionario) {
-        PatchFuncionarioResponse funcionairoPacht = new PatchFuncionarioResponse();
-        funcionairoPacht.setNome(funcionario.getNome());
-        funcionairoPacht.setCpf(funcionario.getCpf());
-        funcionairoPacht.setTelefone(funcionario.getTelefone());
-        funcionairoPacht.setCep(funcionario.getCep());
-        funcionairoPacht.setLogradouro(funcionario.getLogradouro());
-
-        return  funcionairoPacht;
-    }
-
-    private  GetFuncionarioListarResponse converte(Funcionario funcionario) {
-        GetFuncionarioListarResponse listarFuncioanrio = new GetFuncionarioListarResponse();
-        listarFuncioanrio.setId(funcionario.getId());
-        listarFuncioanrio.setNome(funcionario.getNome());
-
-        return listarFuncioanrio;
-    }
-
 }

@@ -1,14 +1,10 @@
 package com.desafioBeca.pdv.dtos.responses;
 
+import lombok.*;
+
+@Data
 public class GetVendaListarResponse {
 
     private Integer id;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

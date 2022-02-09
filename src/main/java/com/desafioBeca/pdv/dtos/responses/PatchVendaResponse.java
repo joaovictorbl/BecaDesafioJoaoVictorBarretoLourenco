@@ -1,24 +1,12 @@
 package com.desafioBeca.pdv.dtos.responses;
 
+import lombok.*;
+
+@Data
 public class PatchVendaResponse {
 
     private Double valorFinal;
     private Integer quantidadeFinal;
-    private  Integer produto;
+    private  GetProdutoObterResponse produto;
 
-    public Double getValorFinal() {
-        return valorFinal;
-    }
-
-    public void setValorFinal(Double valorFinal) {
-        this.valorFinal = valorFinal;
-    }
-
-    public Integer getQuantidadeFinal() {
-        return quantidadeFinal;
-    }
-
-    public void setQuantidadeFinal(Integer quantidadeFinal) {
-        this.quantidadeFinal = quantidadeFinal;
-    }
 }
