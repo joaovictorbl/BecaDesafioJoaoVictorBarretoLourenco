@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/produto")
@@ -24,7 +25,7 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping
-    public ResponseEntity<PostProdutoReponse> criar(@RequestBody PostProdutoRequest postProdutoRequest) {
+    public ResponseEntity<PostProdutoReponse> criar(@RequestBody @Valid PostProdutoRequest postProdutoRequest) {
         PostProdutoReponse produtoCriado = produtoService.criar(postProdutoRequest);
         return ResponseEntity.created(null).body(produtoCriado);
 
@@ -39,7 +40,7 @@ public class ProdutoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PatchProdutoResponse> atualizar(@RequestBody PatchProdutoRequest produto, @PathVariable Integer id) {
+    public ResponseEntity<PatchProdutoResponse> atualizar(@RequestBody @Valid PatchProdutoRequest produto, @PathVariable Integer id) {
 
         PatchProdutoResponse produtoAtualizado = produtoService.atualizar(produto, id);
         return ResponseEntity.ok(produtoAtualizado);

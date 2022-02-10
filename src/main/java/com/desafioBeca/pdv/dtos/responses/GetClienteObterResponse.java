@@ -7,7 +7,7 @@ public class GetClienteObterResponse {
 
     private String nome;
     private String cpf;
-    private Integer telefone;
+    private String telefone;
     private String logradouro;
     private Integer cep;
 

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/cliente")
@@ -23,7 +24,7 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<PostClienteResponse> criar (@RequestBody PostClienteResquest postClienteResquest) {
+    public ResponseEntity<PostClienteResponse> criar (@RequestBody @Valid PostClienteResquest postClienteResquest) {
         PostClienteResponse clienteCriado = clienteService.criar(postClienteResquest);
         return ResponseEntity.created(null).body(clienteCriado);
 
@@ -36,7 +37,7 @@ public class ClienteController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PatchClienteResponse> atualizar (@RequestBody PatchClienteResquest cliente, @PathVariable Integer id) {
+    public ResponseEntity<PatchClienteResponse> atualizar (@RequestBody @Valid PatchClienteResquest cliente, @PathVariable Integer id) {
       PatchClienteResponse clienteAtualizado = clienteService.atualizar(cliente, id);
       return ResponseEntity.ok(clienteAtualizado);
 

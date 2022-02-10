@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/fucionario")
@@ -21,7 +22,7 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
 
     @PostMapping
-    public ResponseEntity<PostFuncionarioResponse> criar(@RequestBody PostFuncionarioRequest postFuncionarioRequest) {
+    public ResponseEntity<PostFuncionarioResponse> criar(@RequestBody @Valid PostFuncionarioRequest postFuncionarioRequest) {
         PostFuncionarioResponse funcionarioCriado = funcionarioService.criar(postFuncionarioRequest);
         return ResponseEntity.created(null).body(funcionarioCriado);
 
@@ -34,7 +35,7 @@ public class FuncionarioController {
      }
 
      @PatchMapping("/{id}")
-     public ResponseEntity<PatchFuncionarioResponse> atualizar (@RequestBody PatchFuncionarioRequest funcionario, @PathVariable Integer id) {
+     public ResponseEntity<PatchFuncionarioResponse> atualizar (@RequestBody @Valid PatchFuncionarioRequest funcionario, @PathVariable Integer id) {
 
         PatchFuncionarioResponse funcionarioAtualizado = funcionarioService.atualizar(funcionario, id);
         return ResponseEntity.ok(funcionarioAtualizado);

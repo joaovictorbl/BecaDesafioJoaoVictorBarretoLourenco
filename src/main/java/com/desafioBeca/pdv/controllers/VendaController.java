@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/venda")
@@ -21,7 +22,7 @@ public class VendaController {
     private VendaService vendaService;
 
     @PostMapping
-    public ResponseEntity<PostVendaResponse> criar(@RequestBody PostVendaRequest postVendaRequest) {
+    public ResponseEntity<PostVendaResponse> criar(@RequestBody @Valid PostVendaRequest postVendaRequest) {
         PostVendaResponse criarVenda = vendaService.criar(postVendaRequest);
         return ResponseEntity.created(null).body(criarVenda);
 
@@ -35,7 +36,7 @@ public class VendaController {
     }
 
     @PatchMapping("/{id}")
-    public  ResponseEntity<PatchVendaResponse> atualizar(@RequestBody PatchVendaRequest vendaRequest, @PathVariable Integer id) {
+    public  ResponseEntity<PatchVendaResponse> atualizar(@RequestBody @Valid PatchVendaRequest vendaRequest, @PathVariable Integer id) {
         PatchVendaResponse vendaAtualizada = vendaService.atualizar(vendaRequest, id);
         return ResponseEntity.ok(vendaAtualizada);
     }
