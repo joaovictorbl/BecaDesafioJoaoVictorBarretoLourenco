@@ -13,7 +13,6 @@ public class PatchClienteResquest {
     @NotBlank(message = "Caompo Obrigatorio!")
     private String nome;
     @Size(max = 12)
-    @NotBlank
     private String cpf;
     @Size(min = 1, max = 8,message = "Caompo Obrigatorio!")
     private String telefone;
