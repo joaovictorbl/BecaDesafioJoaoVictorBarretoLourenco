@@ -2,6 +2,7 @@ package com.desafioBeca.pdv.dtos.requests;
 
 import lombok.*;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -16,6 +17,6 @@ public class PostFuncionarioRequest {
     private String telefone;
     @NotBlank(message = "Campo Obrigatorio!")
     private String logradouro;
-    @NotBlank(message = "Campo Obrigatorio!")
+    @Min(1)
     private Integer cep;
 }

@@ -2,10 +2,7 @@ package com.desafioBeca.pdv.dtos.requests;
 
 import lombok.*;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 public class PostProdutoRequest {
@@ -15,7 +12,8 @@ public class PostProdutoRequest {
     @DecimalMin("0.01")
     @DecimalMax("9999.00")
     private Double valor;
-    @Size(min = 1, max = 8,message = "Caompo Obrigatorio!")
+    @Min(value = 1, message = "Valor minimo uma peça!")
+    @Max(value = 99, message = "valor excedito! ")
     private Integer quantidade;
     private String descricao;
 

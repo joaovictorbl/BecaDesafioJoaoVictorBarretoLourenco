@@ -7,5 +7,6 @@ public class GetVendaObterResponse {
 
     private Double valorFinal;
     private Integer quantidadeFinal;
+    private GetProdutoObterResponse produto;
 
 }

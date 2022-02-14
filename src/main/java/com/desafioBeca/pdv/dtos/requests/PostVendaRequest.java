@@ -3,10 +3,7 @@ package com.desafioBeca.pdv.dtos.requests;
 import com.desafioBeca.pdv.dtos.responses.GetProdutoObterResponse;
 import lombok.*;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 public class PostVendaRequest {
@@ -14,9 +11,9 @@ public class PostVendaRequest {
     @DecimalMin("0.99")
     @DecimalMax("9999.00")
     private Double valorFinal;
-    @Size(min = 1, max = 8,message = "Caompo Obrigatorio!")
+    @Min(value = 1, message = "quantidade minimo exigido!")
+    @Max(value = 99, message = "quantidade excedida !")
     private Integer quantidadeFinal;
-    @NotBlank(message = "Campo Obrigatorio!")
     private GetProdutoObterResponse produto;
 
 

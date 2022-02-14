@@ -2,17 +2,18 @@ package com.desafioBeca.pdv.dtos.requests;
 
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 public class PatchProdutoRequest {
 
     @NotBlank(message = "Campo Obrigatorio!")
     private String nome;
-    @NotBlank(message = "Campo Obrigatorio!")
+    @DecimalMin("0.01")
+    @DecimalMax("9999.00")
     private Double valor;
-    @Size(min = 1, max = 8)
+    @Min(value = 1, message = "Valor minimo uma peça!")
+    @Max(value = 99, message = "valor excedito! ")
     private Integer quantidade;
     private String descricao;
 

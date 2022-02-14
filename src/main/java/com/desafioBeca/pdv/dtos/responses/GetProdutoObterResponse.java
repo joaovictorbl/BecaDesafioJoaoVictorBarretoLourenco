@@ -5,6 +5,7 @@ import lombok.*;
 @Data
 public class GetProdutoObterResponse {
 
+    private Integer id;
     private String nome;
     private Double valor;
     private Integer quantidade;
