@@ -6,9 +6,9 @@ import com.desafioBeca.pdv.dtos.responses.GetClienteListarResponse;
 import com.desafioBeca.pdv.dtos.responses.GetClienteObterResponse;
 import com.desafioBeca.pdv.dtos.responses.PatchClienteResponse;
 import com.desafioBeca.pdv.dtos.responses.PostClienteResponse;
-import com.desafioBeca.pdv.models.Cliente;
 import com.desafioBeca.pdv.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +26,8 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<PostClienteResponse> criar (@RequestBody @Valid PostClienteResquest postClienteResquest) {
         PostClienteResponse clienteCriado = clienteService.criar(postClienteResquest);
-        return ResponseEntity.created(null).body(clienteCriado);
-
+        //return ResponseEntity.created(null).body(clienteCriado);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteCriado);
     }
 
     @GetMapping

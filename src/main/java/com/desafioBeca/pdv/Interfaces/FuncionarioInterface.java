@@ -6,7 +6,6 @@ import com.desafioBeca.pdv.dtos.responses.GetFuncionarioListarResponse;
 import com.desafioBeca.pdv.dtos.responses.GetFuncionarioObterResponse;
 import com.desafioBeca.pdv.dtos.responses.PatchFuncionarioResponse;
 import com.desafioBeca.pdv.dtos.responses.PostFuncionarioResponse;
-import com.desafioBeca.pdv.models.Funcionario;
 
 import java.util.List;
 

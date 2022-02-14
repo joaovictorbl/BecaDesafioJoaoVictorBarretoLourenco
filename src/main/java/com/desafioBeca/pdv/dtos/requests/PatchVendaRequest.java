@@ -1,9 +1,12 @@
 package com.desafioBeca.pdv.dtos.requests;
 
 import com.desafioBeca.pdv.dtos.responses.GetProdutoObterResponse;
-import lombok.*;
+import lombok.Data;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Data
 public class PatchVendaRequest {

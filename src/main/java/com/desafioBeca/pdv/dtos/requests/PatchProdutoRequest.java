@@ -1,6 +1,6 @@
 package com.desafioBeca.pdv.dtos.requests;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.validation.constraints.*;
 

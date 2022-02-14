@@ -1,13 +1,11 @@
 package com.desafioBeca.pdv.controllers;
 
 import com.desafioBeca.pdv.dtos.requests.PatchProdutoRequest;
-import com.desafioBeca.pdv.dtos.requests.PostFuncionarioRequest;
 import com.desafioBeca.pdv.dtos.requests.PostProdutoRequest;
 import com.desafioBeca.pdv.dtos.responses.GetProdutoListarResponse;
 import com.desafioBeca.pdv.dtos.responses.GetProdutoObterResponse;
 import com.desafioBeca.pdv.dtos.responses.PatchProdutoResponse;
 import com.desafioBeca.pdv.dtos.responses.PostProdutoReponse;
-import com.desafioBeca.pdv.models.Produto;
 import com.desafioBeca.pdv.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

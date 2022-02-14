@@ -1,6 +1,7 @@
 package com.desafioBeca.pdv.models;
 
 import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

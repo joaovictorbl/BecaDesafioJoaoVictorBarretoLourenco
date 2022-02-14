@@ -1,6 +1,6 @@
 package com.desafioBeca.pdv.dtos.responses;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class PostProdutoReponse {

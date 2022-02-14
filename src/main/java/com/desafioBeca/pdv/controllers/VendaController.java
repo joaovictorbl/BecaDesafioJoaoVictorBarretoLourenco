@@ -3,8 +3,10 @@ package com.desafioBeca.pdv.controllers;
 
 import com.desafioBeca.pdv.dtos.requests.PatchVendaRequest;
 import com.desafioBeca.pdv.dtos.requests.PostVendaRequest;
-import com.desafioBeca.pdv.dtos.responses.*;
-import com.desafioBeca.pdv.models.Venda;
+import com.desafioBeca.pdv.dtos.responses.GetVendaListarResponse;
+import com.desafioBeca.pdv.dtos.responses.GetVendaObterResponse;
+import com.desafioBeca.pdv.dtos.responses.PatchVendaResponse;
+import com.desafioBeca.pdv.dtos.responses.PostVendaResponse;
 import com.desafioBeca.pdv.services.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

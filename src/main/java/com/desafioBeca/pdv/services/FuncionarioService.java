@@ -1,15 +1,16 @@
 package com.desafioBeca.pdv.services;
 
 import com.desafioBeca.pdv.Interfaces.FuncionarioInterface;
-import com.desafioBeca.pdv.dtos.requests.PatchClienteResquest;
 import com.desafioBeca.pdv.dtos.requests.PatchFuncionarioRequest;
 import com.desafioBeca.pdv.dtos.requests.PostFuncionarioRequest;
-import com.desafioBeca.pdv.dtos.responses.*;
+import com.desafioBeca.pdv.dtos.responses.GetFuncionarioListarResponse;
+import com.desafioBeca.pdv.dtos.responses.GetFuncionarioObterResponse;
+import com.desafioBeca.pdv.dtos.responses.PatchFuncionarioResponse;
+import com.desafioBeca.pdv.dtos.responses.PostFuncionarioResponse;
 import com.desafioBeca.pdv.mappers.funcionario.*;
 import com.desafioBeca.pdv.models.Funcionario;
 import com.desafioBeca.pdv.repositories.FuncionarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

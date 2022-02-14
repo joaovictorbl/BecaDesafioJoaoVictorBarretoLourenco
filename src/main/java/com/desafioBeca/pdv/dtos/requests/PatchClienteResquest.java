@@ -1,8 +1,6 @@
 package com.desafioBeca.pdv.dtos.requests;
 
-import lombok.*;
-import org.hibernate.validator.constraints.br.CPF;
-import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

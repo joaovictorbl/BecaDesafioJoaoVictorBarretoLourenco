@@ -11,10 +11,8 @@ import com.desafioBeca.pdv.mappers.cliente.*;
 import com.desafioBeca.pdv.models.Cliente;
 import com.desafioBeca.pdv.repositories.ClienteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 

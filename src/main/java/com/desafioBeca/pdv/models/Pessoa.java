@@ -2,7 +2,7 @@ package com.desafioBeca.pdv.models;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.MappedSuperclass;
 
 @Data
 @MappedSuperclass

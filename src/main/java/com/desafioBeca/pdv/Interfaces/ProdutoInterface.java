@@ -6,7 +6,6 @@ import com.desafioBeca.pdv.dtos.responses.GetProdutoListarResponse;
 import com.desafioBeca.pdv.dtos.responses.GetProdutoObterResponse;
 import com.desafioBeca.pdv.dtos.responses.PatchProdutoResponse;
 import com.desafioBeca.pdv.dtos.responses.PostProdutoReponse;
-import com.desafioBeca.pdv.models.Produto;
 
 import java.util.List;
 
