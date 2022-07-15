@@ -1,53 +1,61 @@
 package com.desafioBeca.pdv.services;
 
 import com.desafioBeca.pdv.Interfaces.ProdutoInterface;
-import com.desafioBeca.pdv.models.Funcionario;
+import com.desafioBeca.pdv.dtos.requests.PatchProdutoRequest;
+import com.desafioBeca.pdv.dtos.requests.PostProdutoRequest;
+import com.desafioBeca.pdv.dtos.responses.*;
+import com.desafioBeca.pdv.mappers.produto.*;
 import com.desafioBeca.pdv.models.Produto;
-import com.desafioBeca.pdv.repositories.FuncionarioRepository;
 import com.desafioBeca.pdv.repositories.ProdutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProdutoService implements ProdutoInterface {
 
-    @Autowired
-    private ProdutoRepository produtoRepository;
+
+    private final ProdutoRepository produtoRepository;
+    private final MapperProdutoListResponse mapperProdutoListResponse;
+    private final MapperProdutoObterResponse mapperProdutoObterresponse;
+    private final MapperProdutoPatchRequest mapperProdutoPatchRequest;
+    private final MapperProdutoPatchResponse mapperProdutoPatchResponse;
+    private final MapperProdutoPostRequest mapperProdutoPostRequest;
+    private final MapperProdutoPostResponse mapperProdutoPostResponse;
 
 
-    public Produto criar(Produto produto) {
+    public PostProdutoReponse criar(PostProdutoRequest postProdutoRequest) {
 
-        Produto produtoNovo = produtoRepository.save(produto);
-        return produtoNovo;
+        Produto produtoNovo = mapperProdutoPostRequest.toModel(postProdutoRequest);
+        produtoRepository.save(produtoNovo);
+        return mapperProdutoPostResponse.toResponse(produtoNovo);
     }
 
-
-    public List<Produto> lista() {
+    public List<GetProdutoListarResponse> lista() {
 
         List<Produto> listaProdutos = produtoRepository.findAll();
-        return listaProdutos;
+        return listaProdutos.stream().map(mapperProdutoListResponse::toResponse).collect(Collectors.toList());
     }
 
 
-    public Produto atualizar(Produto produto, Integer id) {
+    public PatchProdutoResponse atualizar(PatchProdutoRequest patchProdutoRequest, Integer id) {
 
-        Produto produtoObtido = this.obter(id);
-        produtoObtido.setNome(produto.getNome());
-        produtoObtido.setValor(produto.getValor());
-        produtoObtido.setQuantidade(produto.getQuantidade());
-        produtoObtido.setDescricao(produto.getDescricao());
-        produtoRepository.save(produtoObtido);
+        Produto produtoObtido = produtoRepository.findById(id).get();
+        mapperProdutoPatchRequest.atualizar(patchProdutoRequest, produtoObtido);
+                produtoRepository.save(produtoObtido);
 
-        return produtoObtido;
+        return mapperProdutoPatchResponse.toResponse(produtoObtido);
     }
 
     public void deletar(Integer id) {
         produtoRepository.deleteById(id);
+
     }
 
-    public Produto obter(Integer id) {
+    public GetProdutoObterResponse obter(Integer id) {
 
         Produto produtoSelecao = produtoRepository.findById(id).get();
 
@@ -55,6 +63,6 @@ public class ProdutoService implements ProdutoInterface {
             throw new RuntimeException("Id funcionario não existe");
         }
 
-        return produtoSelecao;
+        return mapperProdutoObterresponse.toResponse(produtoSelecao);
     }
 }

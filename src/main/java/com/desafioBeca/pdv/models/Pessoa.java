@@ -10,7 +10,7 @@ public class Pessoa {
 
    private String nome;
    private String cpf;
-   private Integer numero;
+   private String telefone;
    private String logradouro;
    private Integer cep;
 

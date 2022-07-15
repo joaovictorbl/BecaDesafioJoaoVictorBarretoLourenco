@@ -1,45 +1,59 @@
 package com.desafioBeca.pdv.services;
 
 import com.desafioBeca.pdv.Interfaces.ClienteInterface;
+import com.desafioBeca.pdv.dtos.requests.PatchClienteResquest;
+import com.desafioBeca.pdv.dtos.requests.PostClienteResquest;
+import com.desafioBeca.pdv.dtos.responses.GetClienteListarResponse;
+import com.desafioBeca.pdv.dtos.responses.GetClienteObterResponse;
+import com.desafioBeca.pdv.dtos.responses.PatchClienteResponse;
+import com.desafioBeca.pdv.dtos.responses.PostClienteResponse;
+import com.desafioBeca.pdv.mappers.cliente.*;
 import com.desafioBeca.pdv.models.Cliente;
 import com.desafioBeca.pdv.repositories.ClienteRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService implements ClienteInterface {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
 
-    public Cliente criar(Cliente cliente) {
+    private final ClienteRepository clienteRepository;
+    private final MapperClienteGetListResponse mapperClienteGetListResponse;
+    private final MapperClienteGetObterResponse mapperClienteGetObterResponse;
+    private final MapperClientePatchResponse mapperClientePatchResponse;
+    private final MapperClientePatchResquest mapperClientePatchResquest;
+    private final MapperClientePostRequest mapperClientePostRequest;
+    private final MapperClientePostResponse mapperClientePostResponse;
 
-        Cliente clienteNovo = clienteRepository.save(cliente);
+    public PostClienteResponse criar(PostClienteResquest postClienteResquest) {
 
-        return clienteNovo;
+        Cliente clienteNovo = mapperClientePostRequest.toModel(postClienteResquest);
+        clienteRepository.save(clienteNovo);
+        return mapperClientePostResponse.toResponse(clienteNovo);
 
     }
 
-    public List<Cliente> listar() {
+    public List<GetClienteListarResponse> listar() {
 
         List<Cliente> listaCliente = clienteRepository.findAll();
-
-        return listaCliente;
+        return listaCliente.stream().map(
+                cliente -> mapperClienteGetListResponse.toResponse(cliente)
+        ).collect(Collectors.toList());
     }
 
-    public Cliente atualizar(Cliente cliente, Integer id) {
+    public PatchClienteResponse atualizar(PatchClienteResquest patchClienteResquest, Integer id) {
 
-        Cliente clienteObtido = this.obter(id);
-        clienteObtido.setNome(cliente.getNome());
-        clienteObtido.setCep(cliente.getCep());
-        clienteObtido.setCpf(cliente.getCpf());
-        clienteObtido.setLogradouro(cliente.getLogradouro());
-        clienteObtido.setNumero(cliente.getNumero());
+        Cliente clienteObtido = clienteRepository.findById(id).get();
+        mapperClientePatchResquest.atualizar(patchClienteResquest, clienteObtido);
         clienteRepository.save(clienteObtido);
 
-        return clienteObtido;
+        return mapperClientePatchResponse.toResponse(clienteObtido);
 
     }
 
@@ -50,14 +64,14 @@ public class ClienteService implements ClienteInterface {
     }
 
 
-    public Cliente obter(Integer id) {
+    public GetClienteObterResponse obter(Integer id) {
 
         Cliente clienteSelecao = clienteRepository.findById(id).get();
 
-        if (clienteSelecao == null){
+        if (clienteSelecao == null) {
             throw new RuntimeException("Id cliente não existe! ");
         }
 
-        return clienteSelecao;
+        return mapperClienteGetObterResponse.toResponse(clienteSelecao);
     }
 }

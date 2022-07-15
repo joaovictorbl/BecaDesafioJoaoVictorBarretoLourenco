@@ -1,19 +1,25 @@
 package com.desafioBeca.pdv.Interfaces;
 
+import com.desafioBeca.pdv.dtos.requests.PatchFuncionarioRequest;
+import com.desafioBeca.pdv.dtos.requests.PostFuncionarioRequest;
+import com.desafioBeca.pdv.dtos.responses.GetFuncionarioListarResponse;
+import com.desafioBeca.pdv.dtos.responses.GetFuncionarioObterResponse;
+import com.desafioBeca.pdv.dtos.responses.PatchFuncionarioResponse;
+import com.desafioBeca.pdv.dtos.responses.PostFuncionarioResponse;
 import com.desafioBeca.pdv.models.Funcionario;
 
 import java.util.List;
 
 public interface FuncionarioInterface {
 
-    Funcionario criar(Funcionario funcionario);
+    PostFuncionarioResponse criar(PostFuncionarioRequest postFuncionarioRequest);
 
-    List<Funcionario> lista();
+    List<GetFuncionarioListarResponse> lista();
 
-    Funcionario atualizar(Funcionario funcionario, Integer id);
+    PatchFuncionarioResponse atualizar(PatchFuncionarioRequest patchFuncionarioRequest, Integer id);
 
     void deletar(Integer id);
 
-    Funcionario obter(Integer id);
+    GetFuncionarioObterResponse obter(Integer id);
 
 }

@@ -2,6 +2,11 @@ package com.desafioBeca.pdv.services;
 
 
 import com.desafioBeca.pdv.Interfaces.VendaInterface;
+import com.desafioBeca.pdv.dtos.requests.PatchVendaRequest;
+import com.desafioBeca.pdv.dtos.requests.PostVendaRequest;
+import com.desafioBeca.pdv.dtos.responses.*;
+import com.desafioBeca.pdv.mappers.produto.MapperProdutoPostResponse;
+import com.desafioBeca.pdv.mappers.venda.*;
 import com.desafioBeca.pdv.models.Produto;
 import com.desafioBeca.pdv.models.Venda;;
 import com.desafioBeca.pdv.repositories.VendaRepository;
@@ -10,39 +15,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class VendaService implements VendaInterface {
 
-    private final VendaRepository vendaRepository;
-
     private final ProdutoService produtoService;
 
-    public Venda criar(Venda venda) {
+    private final VendaRepository vendaRepository;
+    private final MapperVendaListRespponse mapperVendaListRespponse;
+    private final MapperVendaObterResponse mapperVendaObterResponse;
+    private final MapperVendaPatchRequest mapperVendaPatchRequest;
+    private final MapperVendaPatchResponse mapperVendaPatchResponse;
+    private final MapperVendaPostRequest mapperVendaPostRequest;
+    private final MapperVendaPostResponse mapperVendaPostResponse;
 
-        Produto produtoCriado = produtoService.obter(venda.getProduto().getId());
-        venda.setProduto(produtoCriado);
-        Venda novaVenda = vendaRepository.save(venda);
+    public PostVendaResponse criar(PostVendaRequest postVendaRequest) {
 
-        return novaVenda;
+        Venda novaVenda = mapperVendaPostRequest.toModel(postVendaRequest);
+        vendaRepository.save(novaVenda);
+        return mapperVendaPostResponse.toResponse(novaVenda);
     }
 
-    public List<Venda> lista() {
+    public List<GetVendaListarResponse> lista() {
 
         List<Venda> listaVenda = vendaRepository.findAll();
-        return listaVenda;
+        return listaVenda.stream().map(mapperVendaListRespponse::toReponse).collect(Collectors.toList());
     }
 
-    public Venda atualizar(Venda venda, Integer id) {
+    public PatchVendaResponse atualizar(PatchVendaRequest patchVendaRequest, Integer id) {
 
-        Venda vendaObtida = this.obter(id);
-        vendaObtida.setValorFinal(venda.getValorFinal());
-        vendaObtida.setQuantidadeFinal(venda.getQuantidadeFinal());
-        Produto produtoObtido = produtoService.obter(venda.getProduto().getId());
-        vendaObtida.setProduto(produtoObtido);
+        Venda vendaObtida = vendaRepository.findById(id).get();
+        mapperVendaPatchRequest.atualizar(patchVendaRequest, vendaObtida);
+        vendaRepository.save(vendaObtida);
 
-        return vendaObtida;
+        return mapperVendaPatchResponse.toResponse(vendaObtida);
     }
 
 
@@ -51,14 +59,13 @@ public class VendaService implements VendaInterface {
 
     }
 
-    public Venda obter(Integer id) {
+    public GetVendaObterResponse obter(Integer id) {
 
         Venda vendaSelecao = vendaRepository.findById(id).get();
 
         if (vendaSelecao == null) {
             throw new RuntimeException("Id de venda não existe! ");
         }
-        return vendaSelecao;
-
+        return mapperVendaObterResponse.toResponse(vendaSelecao);
     }
 }

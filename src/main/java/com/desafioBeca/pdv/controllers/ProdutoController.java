@@ -1,11 +1,19 @@
 package com.desafioBeca.pdv.controllers;
 
+import com.desafioBeca.pdv.dtos.requests.PatchProdutoRequest;
+import com.desafioBeca.pdv.dtos.requests.PostFuncionarioRequest;
+import com.desafioBeca.pdv.dtos.requests.PostProdutoRequest;
+import com.desafioBeca.pdv.dtos.responses.GetProdutoListarResponse;
+import com.desafioBeca.pdv.dtos.responses.GetProdutoObterResponse;
+import com.desafioBeca.pdv.dtos.responses.PatchProdutoResponse;
+import com.desafioBeca.pdv.dtos.responses.PostProdutoReponse;
 import com.desafioBeca.pdv.models.Produto;
 import com.desafioBeca.pdv.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/produto")
@@ -17,28 +25,24 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping
-    public ResponseEntity<Produto> criar(@RequestBody Produto produto) {
-
-        Produto produtoCriado = produtoService.criar(produto);
-
+    public ResponseEntity<PostProdutoReponse> criar(@RequestBody @Valid PostProdutoRequest postProdutoRequest) {
+        PostProdutoReponse produtoCriado = produtoService.criar(postProdutoRequest);
         return ResponseEntity.created(null).body(produtoCriado);
 
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> lista() {
+    public ResponseEntity<List<GetProdutoListarResponse>> lista() {
 
-        List<Produto> listaDeProdutos = produtoService.lista();
-
+        List<GetProdutoListarResponse> listaDeProdutos = produtoService.lista();
         return ResponseEntity.ok(listaDeProdutos);
 
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Produto> atualizar(@RequestBody Produto produto, @PathVariable Integer id) {
+    public ResponseEntity<PatchProdutoResponse> atualizar(@RequestBody @Valid PatchProdutoRequest produto, @PathVariable Integer id) {
 
-        Produto produtoAtualizado = produtoService.atualizar(produto, id);
-
+        PatchProdutoResponse produtoAtualizado = produtoService.atualizar(produto, id);
         return ResponseEntity.ok(produtoAtualizado);
 
     }
@@ -53,11 +57,8 @@ public class ProdutoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> obter(@PathVariable Integer id) {
-
-        Produto obterProduto = produtoService.obter(id);
-
+    public ResponseEntity<GetProdutoObterResponse> obter(@PathVariable Integer id) {
+        GetProdutoObterResponse obterProduto = produtoService.obter(id);
         return ResponseEntity.ok(obterProduto);
-
     }
 }

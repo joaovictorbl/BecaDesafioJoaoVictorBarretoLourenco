@@ -1,64 +1,71 @@
 package com.desafioBeca.pdv.services;
 
 import com.desafioBeca.pdv.Interfaces.FuncionarioInterface;
+import com.desafioBeca.pdv.dtos.requests.PatchClienteResquest;
+import com.desafioBeca.pdv.dtos.requests.PatchFuncionarioRequest;
+import com.desafioBeca.pdv.dtos.requests.PostFuncionarioRequest;
+import com.desafioBeca.pdv.dtos.responses.*;
+import com.desafioBeca.pdv.mappers.funcionario.*;
 import com.desafioBeca.pdv.models.Funcionario;
 import com.desafioBeca.pdv.repositories.FuncionarioRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FuncionarioService implements FuncionarioInterface {
 
-    @Autowired
-    private FuncionarioRepository funcionarioRepository;
+
+    private final FuncionarioRepository funcionarioRepository;
+    private final MapperFuncionarioGetResponse mapperFuncionarioGetResponse;
+    private final MapperFuncionarioListResponse mapperFuncionarioListResponse;
+    private final MapperFuncionarioPatchRequest mapperFuncionarioPatchRequest;
+    private final MapperFuncionarioPatchResponse mapperFuncionarioPatchResponse;
+    private final MapperFuncionarioPostRequest mapperFuncionarioPostRequest;
+    private final MapperFuncionarioPostResponse mapperFuncionarioPostResponse;
 
 
-    public Funcionario criar (Funcionario funcionario) {
+    public PostFuncionarioResponse criar(PostFuncionarioRequest postFuncionarioRequest) {
 
-       Funcionario funcionarioNovo = funcionarioRepository.save(funcionario);
-
-        return funcionarioNovo;
+        Funcionario funcionarioNovo = mapperFuncionarioPostRequest.toModel(postFuncionarioRequest);
+        funcionarioRepository.save(funcionarioNovo);
+        return mapperFuncionarioPostResponse.toResponse(funcionarioNovo);
     }
 
 
-    public List<Funcionario> lista() {
+    public List<GetFuncionarioListarResponse> lista() {
 
-       List<Funcionario> listaFuncionario = funcionarioRepository.findAll();
-
-        return listaFuncionario;
+        List<Funcionario> listaFuncionario = funcionarioRepository.findAll();
+        return listaFuncionario.stream().map(mapperFuncionarioListResponse::toResponse).collect(Collectors.toList());
     }
 
+    public PatchFuncionarioResponse atualizar(PatchFuncionarioRequest patchFuncionarioRequest, Integer id) {
 
-    public Funcionario atualizar (Funcionario funcionario, Integer id) {
-
-        Funcionario funcionarioObtido = this.obter(id);
-        funcionarioObtido.setNome(funcionario.getNome());
-        funcionarioObtido.setCpf(funcionario.getCpf());
-        funcionarioObtido.setNumero(funcionario.getNumero());
-        funcionarioObtido.setCep(funcionario.getCep());
-        funcionarioObtido.setLogradouro(funcionario.getLogradouro());
+        Funcionario funcionarioObtido = funcionarioRepository.findById(id).get();
+        mapperFuncionarioPatchRequest.atualizar(patchFuncionarioRequest, funcionarioObtido);
         funcionarioRepository.save(funcionarioObtido);
 
-        return funcionarioObtido;
+        return mapperFuncionarioPatchResponse.toReponse(funcionarioObtido);
     }
 
 
-    public void deletar (Integer id) {
+    public void deletar(Integer id) {
         funcionarioRepository.deleteById(id);
 
     }
 
 
-    public Funcionario obter (Integer id ) {
+    public GetFuncionarioObterResponse obter(Integer id) {
 
-        Funcionario funcuinarioSelecao = funcionarioRepository.findById(id).get();
+        Funcionario funcionario = funcionarioRepository.findById(id).get();
 
-        if (funcuinarioSelecao == null) {
+        if (funcionario == null) {
             throw new RuntimeException("Id funcionario não existe! ");
         }
-        return funcuinarioSelecao;
+        return mapperFuncionarioGetResponse.toResponse(funcionario);
     }
-
 }
